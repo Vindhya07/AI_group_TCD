@@ -1,0 +1,15 @@
+https://github.com/nuno-faria/tetris-ai
+
+https://github.com/jaybutera/tetrisRL
+
+https://github.com/OneMelon8/TetrisAI
+
+https://github.com/uiucanh/tetris
+
+https://github.com/uvipen/Tetris-deep-Q-learning-pytorch
+
+https://github.com/michiel-cox/Tetris-DQN
+
+https://github.com/brnd-from-mars/TetrisAI
+
+https://github.com/yanyongyu/python-tetris
