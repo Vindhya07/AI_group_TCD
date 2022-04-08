@@ -1,4 +1,4 @@
-https://github.com/nuno-faria/tetris-ai
+https://github.com/nuno-faria/tetris-ai - Vindhya 
 
 https://github.com/jaybutera/tetrisRL
 
