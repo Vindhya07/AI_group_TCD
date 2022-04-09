@@ -21,3 +21,8 @@ Kalaivani Kandasamy
 >- Split into teams of 2, understanding and integrating code
 >- Updates regarding who choosing which on the google document 
 >- 3 main approaches: Pierre Dellacherie, GA, RL 
+
+Commands to run algorithms:
+DFS: python3 DeepFirstSearch.py
+Genetic: python3 Genetic.py
+BlindBanditMCTS: python3 BlindBanditMCTS.py
