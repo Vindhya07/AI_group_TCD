@@ -3,11 +3,11 @@ Repo for AI Group Project
 
 
 # TODO
-> Understand code and integrate 
-> Perform evaluation and comparison
-> Complete literature review 
-> Write report
-> Make presentation and video 
+>- Understand code and integrate 
+>- Perform evaluation and comparison
+>- Complete literature review 
+>- Write report
+>- Make presentation and video 
 
 # PROGRESS
 > Literature review materials gathered and work started 
