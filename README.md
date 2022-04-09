@@ -1,5 +1,9 @@
 # AI_group_TCD
-Repo for AI Group Project
+Assignment 2 
+Vindhya Nagaraj
+Miguel Lopez
+Anoushka Mittal 
+Kalaivani Kandasamy
 
 
 # TODO
@@ -10,10 +14,10 @@ Repo for AI Group Project
 >- Make presentation and video 
 
 # PROGRESS
-> Literature review materials gathered and work started 
-> Code being analysed 
+>- Literature review materials gathered and work started 
+>- Code being analysed 
 
 # MEETING MINUTES
-> Split into teams of 2, understanding and integrating code
-> Updates regarding who choosing which on the google document 
-> 3 main approaches: Pierre Dellacherie, GA, RL 
+>- Split into teams of 2, understanding and integrating code
+>- Updates regarding who choosing which on the google document 
+>- 3 main approaches: Pierre Dellacherie, GA, RL 
