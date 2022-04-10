@@ -27,6 +27,7 @@ Report -
 
 Kalaivani Kandasamy:
 Code - 
+
 Report -
 > Problem Definition and Algorithms
 > Conclusion
@@ -34,6 +35,7 @@ Report -
 
 Miguel Lopez:
 Code -
+
 Report - 
 > Introduction
 > Related work
@@ -44,6 +46,7 @@ Code -
 > Performance Comparison and Evaluation of the Four Algorithms
 > Calculated time, score and lines cleared for performance
 > Baseline Local Search Algorithm implementation
+
 Report - 
 > Abstract
 > Problem Definition and Algorithms
