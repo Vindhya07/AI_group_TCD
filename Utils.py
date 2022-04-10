@@ -138,7 +138,7 @@ def get_parameters_PD(board):
             abs_diffCol: an int variable containing the sum of the difference between consecutive piles of tetraminoes
             max_diffCol: an int variable containing the highest difference between column
     """
-    global DeepLines
+    global DeepLines_PD
     ### Calcola le metriche sulla board corrente
 
     # Initialize some stuff
@@ -151,7 +151,7 @@ def get_parameters_PD(board):
     board_buried_holes = 0
     board_wells = 0
 
-    DeepLines, rows_cleared = count_full_lines(board)
+    DeepLines_PD, rows_cleared = count_full_lines_PD(board)
 
     # Calculate all together to optimize calculation
     countTetra = 0
@@ -212,7 +212,7 @@ def get_parameters_PD(board):
     for i in diffs:
         diff_sum += abs(i)
 
-    fullLines = DeepLines
+    fullLines = DeepLines_PD
 
     return fullLines, heights, rows_cleared, board_row_transition, board_column_transition , board_buried_holes, board_wells
 
@@ -333,6 +333,27 @@ def standard_deviation_heights(heights):
 
 
 def count_full_lines(board):
+    """
+    It calculates the number of full lines made in the game
+    :param board: Matrix (lists of lists) of strings
+    :return: count: is an int variable containing the number of full lines made in the game
+    """
+    # Count the number of lines
+    count = 0
+    for i in range(0, BOARDHEIGHT):
+        check = True
+        for j in range(0, BOARDWIDTH):
+            if board[j][i] == '0':
+                # print("Find hole in = ",(i+1,j+1))
+                check = False
+                break
+            # else:
+            #    print("Cot Find hole in = ",(i+1,j+1))
+        if check:
+            count += 1
+    return count
+
+def count_full_lines_PD(board):
     """
     It calculates the number of full lines made in the game
     :param board: Matrix (lists of lists) of strings

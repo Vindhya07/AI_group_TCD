@@ -66,7 +66,7 @@ class MonteCarlo(BaseGame, ABC):
         test_score = float(
             (fullLines * 1.8) - (vHoles) - (vBlocks * 0.5) - ((maxHeight ** 1.5) * 0.002) - (stdDY * 0.01) - (
                     absDy * 0.2) - (maxDy * 0.3))
-        return test_score, fullLines
+        return test_score
 
     # MonteCarlo Step 1 (DFS BASED)
     def MonteCarlo_MCTS(self, board, piece, NextPiece):
@@ -100,7 +100,7 @@ class MonteCarlo(BaseGame, ABC):
                 MonteCarloPlot.addedge(MonteCarloPlot.ROOTZERO, fatherName)
 
                 if test_board is not None:
-                    test_score, fullLines = self.get_expected_score(test_board)
+                    test_score = self.get_expected_score(test_board)
                     NextScore = 0
                     selfAction = ""
                     #  print("Tested branch : [ rot= ", rot, "/sideway=", sideways, "] : scored = ", round(test_score, 3))
@@ -166,7 +166,7 @@ class MonteCarlo(BaseGame, ABC):
                 MonteCarloPlot.addedge(fatherName, fatherName + "_" + NameNode)
 
                 if test_board is not None:
-                    test_score, fullLines = self.get_expected_score(test_board)
+                    test_score = self.get_expected_score(test_board)
                     #  print("Tested branch : [ rot= ",rot ,"/sideway=",sideways," // deep= ",deep,"] : scored = ",round(test_score,3))
 
                     # print("yyyy: ", deep, " ",self.deepLimit)
