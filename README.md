@@ -1,24 +1,23 @@
-# AI_group_TCD
-Assignment 2 
-Vindhya Nagaraj
-Miguel Lopez
-Anoushka Mittal 
-Kalaivani Kandasamy
+Project Code:
+Link to Github repository:
+https://github.com/Vindhya07/AI_group_TCD/
 
+Project Report:
+Link to Overleaf:
+https://www.overleaf.com/project/625095d690b64808e52b0274
 
-# TODO
->- Complete literature review 
->- Write report
->- Make presentation and video 
->- Not to forget the contributions thing (Read assignment 2 specs)
+Project Presentation:
+Link to Presentation:
 
-# PROGRESS
->- Literature review materials gathered and work started 
->- Code being analysed 
->- Performance Statistics added (Time Taken vs Score, Time Taken vs Lines Cleared)
+Project Group Members and Contribution:
+Details:
+Anoushka Mittal - mittalan@tcd.ie
+Kalaivani Kandasamy - kandasak@tcd.ie
+Miguel Lopez - lpezm@tcd.ie
+Vindhya Nagaraj - vnagaraj@tcd.ie
 
-Commands to run algorithms:
-DFS: python3 DeepFirstSearch.py
-Genetic: python3 Genetic.py
-BlindBanditMCTS: python3 BlindBanditMCTS.py
-Performance Stat Plots: python3 Plot_Class.py
+Contributions:
+Anoushka Mittal - 
+Kalaivani Kandasamy - 
+Miguel Lopez - 
+Vindhya Nagaraj - 
