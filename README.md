@@ -17,7 +17,26 @@ Miguel Lopez - lpezm@tcd.ie
 Vindhya Nagaraj - vnagaraj@tcd.ie
 
 >- Contributions:
-Anoushka Mittal - 
-Kalaivani Kandasamy - 
-Miguel Lopez - 
-Vindhya Nagaraj - 
+Anoushka Mittal:
+Code - 
+Report - 
+
+Kalaivani Kandasamy:
+Code - 
+Report -
+
+Miguel Lopez:
+Code -
+Report - 
+
+Vindhya Nagaraj:
+Code - 
+> Performance Comparison and Evaluation of the Four Algorithms
+> Calculated time, score and lines cleared for performance
+> Baseline Local Search Algorithm implementation
+Report - 
+> Abstract
+> Problem Definition and Algorithms
+> Evaluation Metrics
+
+>-Code Reference: https://github.com/Chrism1c/TetrAIs
