@@ -16,13 +16,10 @@ Kalaivani Kandasamy
 # PROGRESS
 >- Literature review materials gathered and work started 
 >- Code being analysed 
-
-# MEETING MINUTES
->- Split into teams of 2, understanding and integrating code
->- Updates regarding who choosing which on the google document 
->- 3 main approaches: Pierre Dellacherie, GA, RL 
+>- Performance Statistics added (Time Taken vs Score, Time Taken vs Lines Cleared)
 
 Commands to run algorithms:
 DFS: python3 DeepFirstSearch.py
 Genetic: python3 Genetic.py
 BlindBanditMCTS: python3 BlindBanditMCTS.py
+Performance Stat Plots: python3 Plot_Class.py
