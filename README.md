@@ -16,7 +16,7 @@ https://www.overleaf.com/read/qytzmtgwzbyz
 > Miguel Lopez - lpezm@tcd.ie
 > Vindhya Nagaraj - vnagaraj@tcd.ie
 
-# Contributions were as follows:
+# Contributions:
 Anoushka Mittal:
 Code - Searched for relevant Github Links, assessed their running status, suitably edited chosen codes to make them run successfully.
 Report - Collected the relevant papers for the literature review and worked on the presentation, Introduction, Related Work, Slides - ppt
