@@ -17,10 +17,7 @@ import matplotlib.pyplot as plt
 
 class BaseGame(metaclass=ABCMeta):
     """
-        Main class for BaseGame, all AIs are based on this class
-        ---Methods----
-        run():
-
+        Tetris game base class, all the algorithms are based on this class imlementation
     """
 
     def __init__(self, r_p, gdSidePanel, title, description, titleRun: str = None):

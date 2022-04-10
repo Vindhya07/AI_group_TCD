@@ -2,6 +2,7 @@
 
 from Model import *
 import math
+import numpy as np
 
 
 def simulate_board(test_board, test_piece, move):
@@ -123,6 +124,97 @@ def get_parameters(board):
     max_diffCol = roofRY[len(roofRY) - 1]
 
     return fullLines, holes, numTetraminoes, max_height, standardDvHeights, abs_diffCol, max_diffCol
+
+def get_parameters_PD(board):
+    """
+    This function calculates some parameters useful for the understanding the state of the board
+
+    :param board: Matrix (lists of lists) of strings
+    :return:fullLines: an int variable containing the number of cleared lines
+            holes: an int variable containing the number of holes in the board
+            numTetraminoes: an int variable containing the number of tetraminoes placed
+            max_height: an int variable containing the max height got by the highest column of tetraminoes
+            standardDvHeights: a float variable containing the value of standard deviation of each column of tetraminoes
+            abs_diffCol: an int variable containing the sum of the difference between consecutive piles of tetraminoes
+            max_diffCol: an int variable containing the highest difference between column
+    """
+    global DeepLines
+    ### Calcola le metriche sulla board corrente
+
+    # Initialize some stuff
+    heights = [0] * BOARDWIDTH
+    diffs = [0] * (BOARDWIDTH - 1)
+    holes = 0
+    diff_sum = 0
+    board_row_transition = 0
+    board_column_transition = 0
+    board_buried_holes = 0
+    board_wells = 0
+
+    DeepLines, rows_cleared = count_full_lines(board)
+
+    # Calculate all together to optimize calculation
+    countTetra = 0
+    max_height = 0
+    height_sum = 0
+    for i in range(0, BOARDWIDTH):  # Select a column
+        occupied = 0  # Set the 'Occupied' flag to 0 for each new column
+        Hflag = False
+        for j in range(0, BOARDHEIGHT):  # Search down starting from the top of the board
+            if int(board[i][j]) > 0:  # Is the cell occupied?
+                countTetra += 1
+                occupied = 1  # If a block is found, set the 'Occupied' flag to 1
+                if not Hflag:
+                    heights[i] = BOARDHEIGHT - j  # Store the height value
+                    height_sum += heights[i]
+                    if max_height < heights[i]:
+                        max_height = heights[i]
+                    Hflag = True
+            if int(board[i][j]) == 0 and occupied == 1:
+                holes += 1  # If a hole is found, add one to the count
+    for j in range(BOARDWIDTH - 5):
+        for i in range(BOARDHEIGHT - 5):
+            if int(board[j + 2][i + 3]) != int(board[j + 2][i + 2]):
+                board_row_transition += 1
+    for i in range(BOARDHEIGHT - 6):
+        for j in range(BOARDWIDTH - 4):
+           if int(board[j + 2][i + 3]) != int(board[j + 1][i + 3]):
+                board_column_transition += 1
+    for i in range(BOARDHEIGHT - 6):
+        """column = board[:][i + 3]
+        index = np.argmax(column)
+        board_buried_holes += sum(column[index:] == 0)"""
+        #holes = 0
+        row_holes = 0x0000
+        previous_row = board[BOARDWIDTH - 1]
+
+        for i in range(BOARDWIDTH - 2, 0):#(var i = board.length - 2; i >= 0; --i) {
+            row_holes = ~board[i] & (previous_row | row_holes)
+
+            for j in range(0, BOARDHEIGHT):
+                board_buried_holes += ((row_holes >> j) & 1)
+
+            previous_row = board[i]
+  
+    for i in range(BOARDHEIGHT - 6):
+        wells = 0
+        for j in range(BOARDWIDTH - 4):
+            if int(board[j + 2][i +3]) == 0 and int(board[j + 2][i +
+                                         2]) == 1 and int(board[j + 2][i + 4]) == 1:
+                wells += 1
+            else:
+                board_wells += wells * (wells + 1) // 2
+                wells = 0
+    # Calculate the difference in heights
+    for i in range(0, len(diffs)):
+        diffs[i] = heights[i + 1] - heights[i]
+
+    for i in diffs:
+        diff_sum += abs(i)
+
+    fullLines = DeepLines
+
+    return fullLines, heights, rows_cleared, board_row_transition, board_column_transition , board_buried_holes, board_wells
 
 
 # metriche per l'IA Monte Carlo
@@ -248,6 +340,7 @@ def count_full_lines(board):
     """
     # Count the number of lines
     count = 0
+    rows_cleared = []
     for i in range(0, BOARDHEIGHT):
         check = True
         for j in range(0, BOARDWIDTH):
@@ -259,7 +352,8 @@ def count_full_lines(board):
             #    print("Cot Find hole in = ",(i+1,j+1))
         if check:
             count += 1
-    return count
+            rows_cleared.append(i)
+    return count, rows_cleared
 
 
 def maxHeight(board):

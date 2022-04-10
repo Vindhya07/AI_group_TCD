@@ -128,6 +128,8 @@ def add_to_board(board, piece):
         for y in range(TEMPLATEHEIGHT):
             if PIECES[piece['shape']][piece['rotation']][y][x] != BLANK and x + piece['x'] < 10 and y + piece['y'] < 20:
                 board[x + piece['x']][y + piece['y']] = piece['color']
+                #print("position")
+                #print(y + piece['y'])
                 # DEBUGGING NOTE: SOMETIMES THIS IF STATEMENT ISN'T
                 # SATISFIED, WHICH NORMALLY WOULD RAISE AN ERROR.
                 # NOT SURE WHAT CAUSES THE INDICES TO BE THAT HIGH.

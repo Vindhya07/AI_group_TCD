@@ -1,20 +1,20 @@
 from BaseGame import BaseGame
 from abc import ABC
 import copy
-from Utils import simulate_board, get_parameters
+from Utils import simulate_board, get_parameters_PD
 from Model import PIECES, BOARDWIDTH, PIECES_COLORS, TEMPLATEWIDTH
 import random
 from operator import itemgetter
 from NetworkX import TreePlot
 from sidePanel import *
 import csv
+#https://github.com/yanyongyu/python-tetris
 
 #  A new istance of TreePlot for plotting
-MonteCarloPlot = TreePlot()
+PierreDellacheriePlot = TreePlot()
 
 
-class MonteCarlo(BaseGame, ABC):
-    global MonteCarloPlot
+class PierreDellacherie(BaseGame, ABC):
     """
         Main class for MonteCarloTreeSearch algorithm (one object = one move), it implements abstract move() function of BaseGame
         Attributes
@@ -52,9 +52,9 @@ class MonteCarlo(BaseGame, ABC):
         """
             Return the main function to use (MonteCarlo_MCTS)
         """
-        return self.MonteCarlo_MCTS(self.board, self.falling_piece, self.next_piece)
+        return self.PierreDellacherie_PD(self.board, self.falling_piece, self.next_piece)
 
-    def get_expected_score(self, test_board):
+    def get_expected_score(self, test_board, heights_old, parent_board):
         """
             Calculate score of test_board with fixed weights
             Parameters
@@ -62,14 +62,31 @@ class MonteCarlo(BaseGame, ABC):
                   test_board : Matrix (lists of lists) of strings
         """
         # Calcola lo score sulla board di test passando il vettore dei pesi di ogni metrica
-        fullLines, vHoles, vBlocks, maxHeight, stdDY, absDy, maxDy = get_parameters(test_board)
-        test_score = float(
-            (fullLines * 1.8) - (vHoles) - (vBlocks * 0.5) - ((maxHeight ** 1.5) * 0.002) - (stdDY * 0.01) - (
-                    absDy * 0.2) - (maxDy * 0.3))
-        return test_score, fullLines
+        fullLines, heights, rows_cleared, board_row_transition, board_column_transition , board_buried_holes, board_wells = get_parameters_PD(test_board)
+        landing_height = 0
+        for index in range(0, len(heights_old)):
+            if heights_old[index] != heights[index]:
+                if heights[index] > landing_height:
+                   landing_height = heights[index]
+        #find the now of pieces contributed to clear the rows
+        no_of_pieces_contib = 0
+        for cleared_index in range(0, len(rows_cleared)):
+            row = rows_cleared[cleared_index]
+            for position in range(0, BOARDWIDTH):
+                if parent_board[position][row] != test_board[position][row]:
+                    no_of_pieces_contib = no_of_pieces_contib + 1
+        eroded_piece_cells_metric = fullLines * no_of_pieces_contib
+        
+        test_score = (landing_height * -4.500158825082766 + 
+        eroded_piece_cells_metric * 3.4181268101392694 + 
+        board_row_transition * -3.2178882868487753 + 
+        board_column_transition * -3.2178882868487753 + 
+        board_buried_holes * -7.899265427351652 + 
+        board_wells * -3.3855972247263626)
+        return test_score
 
     # MonteCarlo Step 1 (DFS BASED)
-    def MonteCarlo_MCTS(self, board, piece, NextPiece):
+    def PierreDellacherie_PD(self, board, piece, NextPiece):
         """
             Main Scanning function for Deep LV1
             Parameters
@@ -90,32 +107,33 @@ class MonteCarlo(BaseGame, ABC):
         for rot in range(0, len(PIECES[piece['shape']])):
             for sideways in range(-5, 6):
                 numIter = numIter + 1
-                # print("<<<<<<<<<< Enter into branch n° ", numIter)
+                # print("<<< Into branch: n° ", numIter)
                 move = [rot, sideways]
+                fullLines, heights_old, rows_cleared, board_row_transition, board_column_transition , board_buried_holes, board_wells = get_parameters_PD(board)
                 test_board = copy.deepcopy(board)
                 test_piece = copy.deepcopy(piece)
                 test_board = simulate_board(test_board, test_piece, move)
 
                 fatherName = str(piece['shape'] + ":" + str(sideways) + ":" + str(0))
-                MonteCarloPlot.addedge(MonteCarloPlot.ROOTZERO, fatherName)
+                PierreDellacheriePlot.addedge(PierreDellacheriePlot.ROOTZERO, fatherName)
 
                 if test_board is not None:
-                    test_score, fullLines = self.get_expected_score(test_board)
+                    test_score = self.get_expected_score(test_board, heights_old, board)
                     NextScore = 0
                     selfAction = ""
                     #  print("Tested branch : [ rot= ", rot, "/sideway=", sideways, "] : scored = ", round(test_score, 3))
                     if self.deepLimit > 1:
-                        NextScore, selfAction = self.MonteCarlo_MCTS_stepx(board, deep + 1, NextPiece, fatherName)
+                        NextScore, selfAction = self.PierreDellacherie_PD_stepx(board, deep + 1, NextPiece, fatherName)
                         print("Dreamed action : ", self.action)
                         selfAction = self.action
                         self.action = str(piece['shape'])
-                    NextScore = NextScore + test_score
+                    NextScore = test_score#NextScore + test_score
 
                     if not strategy or strategy[2] < NextScore:
                         strategy = (rot, sideways, NextScore, selfAction)
                         topStrategies.append(strategy)
 
-        MonteCarloPlot.Graph.clear()
+        PierreDellacheriePlot.Graph.clear()
 
         print("--->> TOP STRATEGIES <<---")
         topStrategies = sorted(topStrategies, key=itemgetter(2), reverse=True)
@@ -126,7 +144,7 @@ class MonteCarlo(BaseGame, ABC):
 
         return [topStrategies[0][0], topStrategies[0][1]]
 
-    def MonteCarlo_MCTS_stepx(self, board, deep, piece, fatherName):
+    def PierreDellacherie_PD_stepx(self, board, deep, piece, fatherName):
         """
             Recursive Scanning of Virtual Branches on Deep > 2
             Parameters
@@ -158,22 +176,23 @@ class MonteCarlo(BaseGame, ABC):
         for rot in range(0, len(PIECES[piece['shape']])):
             for sideways in sidewaysIndex:
                 move = [rot, sideways]
+                fullLines, heights_old, rows_cleared, board_row_transition, board_column_transition , board_buried_holes, board_wells = get_parameters_PD(board)
                 test_board = copy.deepcopy(board)
                 test_piece = copy.deepcopy(piece)
                 test_board = simulate_board(test_board, test_piece, move)
 
                 NameNode = str(piece['shape'] + ":" + str(sideways) + ":" + str(deep))
-                MonteCarloPlot.addedge(fatherName, fatherName + "_" + NameNode)
+                PierreDellacheriePlot.addedge(fatherName, fatherName + "_" + NameNode)
 
                 if test_board is not None:
-                    test_score, fullLines = self.get_expected_score(test_board)
+                    test_score = self.get_expected_score(test_board, heights_old, board)
                     #  print("Tested branch : [ rot= ",rot ,"/sideway=",sideways," // deep= ",deep,"] : scored = ",round(test_score,3))
 
                     # print("yyyy: ", deep, " ",self.deepLimit)
                     if deep < self.deepLimit:
                         # print("dxxxxx: ", deep)
                         RandPiece = self.__random()
-                        deepScore, pieceType = self.MonteCarlo_MCTS_stepx(board, deep + 1, RandPiece,
+                        deepScore, pieceType = self.PierreDellacherie_PD_stepx(board, deep + 1, RandPiece,
                                                                           fatherName + "_" + NameNode)
                         test_score = test_score + deepScore
 
@@ -197,12 +216,12 @@ class MonteCarlo(BaseGame, ABC):
         return new_piece
 
 
-def bbmcts_main(r_p, mode, numOfRun, gdSidePanel):
+def pd_main(r_p, mode, numOfRun, gdSidePanel):
     #  loop to run  the game with AI for numOfRun executions
     numOfRun = int(numOfRun)
     AVG_runs = 0
     for x in range(numOfRun):
-        mc = MonteCarlo(r_p, gdSidePanel, mode)
+        mc = PierreDellacherie(r_p, gdSidePanel, mode)
         newScore, weights, tot_time, n_tetr, avg_move_time, tetr_s, final_score, lines_removed, time_array, score_array, lines_array = mc.run()
         AVG_runs = AVG_runs + newScore
         print("Game achieved a score of: ", newScore)
@@ -214,9 +233,9 @@ def bbmcts_main(r_p, mode, numOfRun, gdSidePanel):
         print("Final Score:", final_score)
         print("Lines Removed: ", lines_removed)
 
-        f = open('mcts_values.csv', 'w')
+        f = open('pd_values.csv', 'w')
         writer = csv.writer(f)
-        writer.writerow("MCTS Values CSV")
+        writer.writerow("PD Values CSV")
         writer.writerow(time_array)
         writer.writerow(score_array)
         writer.writerow(lines_array)
@@ -228,4 +247,7 @@ def bbmcts_main(r_p, mode, numOfRun, gdSidePanel):
 
 
 if __name__ == "__main__":
-    bbmcts_main('r', 'full', 1,'no')
+    pd_main('r', 'full', 1,'no')
+
+
+
