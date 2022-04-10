@@ -7,7 +7,7 @@ https://github.com/Vindhya07/AI_group_TCD/
 https://www.overleaf.com/read/qytzmtgwzbyz
 
 # Project Presentation:
->- Link to Presentation:
+>- Link to Presentation: https://drive.google.com/file/d/1CwsjdfxjEs6rCaKU2r6JoNYQdzscISsk/view?usp=sharing
 
 # Project Group Members:
 >- Details:
