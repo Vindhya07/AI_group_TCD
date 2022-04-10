@@ -20,36 +20,35 @@ Vindhya Nagaraj - vnagaraj@tcd.ie
 Anoushka Mittal:
 Code - 
 Report - 
-> Introduction
-> Related Work
+> Introduction,
+> Related Work,
 > Slides - ppt
-
 
 Kalaivani Kandasamy:
 Code - 
 
 Report -
-> Problem Definition and Algorithms
-> Conclusion
+> Problem Definition and Algorithms,
+> Conclusion,
 > Slides - ppt
 
 Miguel Lopez:
 Code -
 
 Report - 
-> Introduction
-> Related work
+> Introduction,
+> Related work,
 > Evaluation Metrics
 
 Vindhya Nagaraj:
 Code - 
-> Performance Comparison and Evaluation of the Four Algorithms
-> Calculated time, score and lines cleared for performance
+> Performance Comparison and Evaluation of the Four Algorithms,
+> Calculated time, score and lines cleared for performance,
 > Baseline Local Search Algorithm implementation
 
 Report - 
-> Abstract
-> Problem Definition and Algorithms
+> Abstract,
+> Problem Definition and Algorithms,
 > Evaluation Metrics
 
 >-Code Reference: https://github.com/Chrism1c/TetrAIs
