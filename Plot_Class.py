@@ -27,6 +27,14 @@ def plot1():
         for row in csvreader:
             genetic_rows.append(row)
 
+    # Pierre Plotting
+    pierre_rows=[]
+    with open("pd_values.csv", 'r') as file:
+        csvreader = csv.reader(file, delimiter=',')
+        pierre_header = next(csvreader)
+        for row in csvreader:
+            pierre_rows.append(row)
+
     # print(header)
     # print(rows)
     # fig, ((ax1, ax3, ax5), (ax2, ax4, ax6)) = plt.subplots(2, 3, figsize=(10, 10))
@@ -37,6 +45,7 @@ def plot1():
     ax1.plot(rows[1], color="magenta", label="Deep First Search")
     ax1.plot(mcts_rows[1], color="blue", label="MCTS")
     ax1.plot(genetic_rows[0], genetic_rows[1], color="orange", label="Genetic")
+    ax1.plot(pierre_rows[1], color="green", label="Pierre Dellacherie")
     ax1.set_xlabel("Time Taken (ms)")
     ax1.set_ylabel("Score")
     ax1.set_title("Time Taken vs Score")
@@ -51,6 +60,7 @@ def plot1():
     ax2.plot(rows[2], color="magenta", label="Deep First Search")
     ax2.plot(mcts_rows[2], color="blue", label="MCTS")
     ax2.plot(genetic_rows[0], genetic_rows[2], color="orange", label="Genetic")
+    ax2.plot(pierre_rows[2], color="green", label="Pierre Dellacherie")
     ax2.set_xlabel("Time Taken (ms)")
     ax2.set_ylabel("Lines Cleared")
     ax2.set_title("Time Taken vs Lines Cleared")
@@ -87,9 +97,18 @@ def plot2():
         for row in csvreader:
             genetic_rows.append(row)
 
-    fig, ((ax1, ax3, ax5), (ax2, ax4, ax6)) = plt.subplots(2, 3, figsize=(10, 10))
+    # Pierre Plotting
+    pierre_rows=[]
+    with open("pd_values.csv", 'r') as file:
+        csvreader = csv.reader(file, delimiter=',')
+        pierre_header = next(csvreader)
+        for row in csvreader:
+            pierre_rows.append(row)
+
+    fig, ((ax1, ax3, ax5, ax7), (ax2, ax4, ax6, ax8)) = plt.subplots(2, 4, figsize=(10, 10))
     # fig.tight_layout()
     fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.3, hspace=0.5)
+
 
 
 
@@ -162,6 +181,30 @@ def plot2():
     ax6.set_yticks(yticks[::len(yticks) // 8])
     ax6.set_title("Genetic: \n Time Taken vs Lines CLeared")
     ax6.legend()
+
+    ax7.plot(pierre_rows[0], pierre_rows[1], color="green", label="Pierre Dellacherie")
+    ax7.set_xlabel("Time Taken (ms)")
+    ax7.set_ylabel("Score")
+    xticks = ax7.get_xticks()
+    ax7.set_xticks(xticks[::len(xticks) // 5])
+    ax7.xaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    # yticks = ax7.get_yticks()
+    # ax7.set_ytickxs(yticks[::len(yticks) // 2])
+    ax7.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    ax7.set_title("Pierre: \n Time Taken vs Score")
+    ax7.legend()
+
+    ax8.plot(pierre_rows[0], pierre_rows[2], color="green", label="Pierre Dellacherie")
+    ax8.set_xlabel("Time Taken (ms)")
+    ax8.set_ylabel("Lines Cleared")
+    xticks = ax8.get_xticks()
+    ax8.set_xticks(xticks[::len(xticks) // 5])
+    ax8.xaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    # yticks = ax8.get_yticks()
+    # ax8.set_yticks(yticks[::len(yticks) // 2])
+    ax7.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    ax8.set_title("Pierre: \n Time Taken vs Lines CLeared")
+    ax8.legend()
 
     plt.show()
 
