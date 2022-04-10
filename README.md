@@ -7,11 +7,10 @@ Kalaivani Kandasamy
 
 
 # TODO
->- Understand code and integrate 
->- Perform evaluation and comparison
 >- Complete literature review 
 >- Write report
 >- Make presentation and video 
+>- Not to forget the contributions thing (Read assignment 2 specs)
 
 # PROGRESS
 >- Literature review materials gathered and work started 
