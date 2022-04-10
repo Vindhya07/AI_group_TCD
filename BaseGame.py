@@ -6,12 +6,14 @@ from sidePanel import *
 import random
 import time
 import os
+import numpy as np
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import pygame.locals as keys
 import pyautogui
 
+import matplotlib.pyplot as plt
 
 class BaseGame(metaclass=ABCMeta):
     """
@@ -50,6 +52,13 @@ class BaseGame(metaclass=ABCMeta):
             self.title = title
             self.description = description
             self.panel = SidePanel(self.title, self.description)
+
+        self.final_score = 0
+        self.final_lines = 0
+        self.time_array = np.zeros(0)
+        self.score_array = np.zeros(0)
+        self.lines_array = np.zeros(0)
+        self.start_time = time.time()
 
     def run(self):
         """
@@ -94,7 +103,9 @@ class BaseGame(metaclass=ABCMeta):
                 current_time = time.time()
                 if round(current_time - start) > 60 * self.minutes:
                     tot_time = time.time() - start_tot_time
-                    return score, weights, round(tot_time, 2), num_tetr, round(avg_tetr_time/num_tetr, 2), round(num_tetr/(tot_time*10), 2)
+                    plt.plot(time_array, lines_array)
+                    plt.show()
+                    return score, weights, round(tot_time, 2), num_tetr, round(avg_tetr_time/num_tetr, 2), round(num_tetr/(tot_time*10), 2), self.final_score, self.final_lines, self.time_array, self.score_array, self.lines_array
 
             if self.falling_piece is None:
                 num_tetr += 1
@@ -108,7 +119,7 @@ class BaseGame(metaclass=ABCMeta):
                     tot_time = time.time() - start_tot_time
                     if self.gdSidePanel=='yes':
                         self.panel.destroyPanel()
-                    return score, weights, round(tot_time, 2), num_tetr, round(avg_tetr_time/num_tetr, 2), round(num_tetr/(tot_time*10), 2)
+                    return score, weights, round(tot_time, 2), num_tetr, round(avg_tetr_time/num_tetr, 2), round(num_tetr/(tot_time*10), 2), self.final_score, self.final_lines, self.time_array, self.score_array, self.lines_array
                 # MOVE
                 start_tetr = time.time()
                 current_move = self.get_move()
@@ -208,8 +219,15 @@ class BaseGame(metaclass=ABCMeta):
 
                     lines_removed, self.board = remove_complete_lines(self.board)
                     score += get_score(lines_removed, level)
+                    self.score_array = np.append(self.score_array, score)
+                    self.final_score = score
                     # score += lines #* lines
                     lines += lines_removed  # * lines
+                    self.lines_array = np.append(self.lines_array, lines)
+                    time_now = time.time()
+                    time_diff = time_now - self.start_time
+                    self.time_array = np.append(self.time_array, time_diff)
+                    self.final_lines = lines
                     level, fall_freq = get_level_and_fall_freq(score)
                     # print("level: ", level)
                     # print("fall_freq: ", fall_freq)
@@ -416,6 +434,7 @@ class BaseGame(metaclass=ABCMeta):
         else:
             if sideways == 0:
                 pyautogui.press('space')
+                print("")
             if sideways < 0:
                 pyautogui.press('left')
                 sideways += 1

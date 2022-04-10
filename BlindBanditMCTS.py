@@ -10,6 +10,7 @@ from operator import itemgetter
 import sys
 from NetworkX import TreePlot
 from sidePanel import *
+import csv
 
 #  Create a new istance of TreePlot
 MonteCarloPlot = TreePlot()
@@ -210,7 +211,7 @@ def bbmcts_main(r_p, mode, numOfRun, treePlot, gdSidePanel):
     AVG_runs = 0
     for x in range(numOfRun):
         mc = MonteCarlo(r_p, gdSidePanel, mode, treePlot)
-        newScore, weights, tot_time, n_tetr, avg_move_time, tetr_s = mc.run()
+        newScore, weights, tot_time, n_tetr, avg_move_time, tetr_s, final_score, lines_removed, time_array, score_array, lines_array = mc.run()
         AVG_runs = AVG_runs + newScore
         print("Game achieved a score of: ", newScore)
         print("weights: ", weights)
@@ -218,6 +219,17 @@ def bbmcts_main(r_p, mode, numOfRun, treePlot, gdSidePanel):
         print("#moves:  ", n_tetr)
         print("avg time per move: ", avg_move_time)
         print("moves/sec:  ", tetr_s)
+        print("Final Score:", final_score)
+        print("Lines Removed: ", lines_removed)
+
+        f = open('mcts_values.csv', 'w')
+        writer = csv.writer(f)
+        writer.writerow("MCTS Values CSV")
+        writer.writerow(time_array)
+        writer.writerow(score_array)
+        writer.writerow(lines_array)
+        f.close()
+
     AVG_runs = AVG_runs / numOfRun
     if numOfRun > 1:
         print("AVGScore after ", numOfRun, " Runs : ", AVG_runs)

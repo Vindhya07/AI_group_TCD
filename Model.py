@@ -2,7 +2,7 @@
 import random
 import pyautogui
 
-# Define settings and constants
+# # Define settings and constants
 pyautogui.PAUSE = 0.03
 pyautogui.FAILSAFE = True
 

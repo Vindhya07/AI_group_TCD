@@ -7,7 +7,7 @@ from BaseGame import *
 from Utils import *
 from fileManager import chromToStr, getPerfectChromosome
 #from com.Menu import menu
-
+import csv
 
 class Genetic(BaseGame, ABC):
     """
@@ -158,13 +158,26 @@ def perfectRun(pieceType, gdSidePanel, nrun):
     if perfectChromosome is not None:
         title = "Perfect Run n: " + str(nrun)
         gen = Genetic(r_p, gdSidePanel, perfectChromosome, title)
-        newScore, _, tot_time, n_tetr, avg_move_time, tetr_s = gen.run()
+        newScore, _, tot_time, n_tetr, avg_move_time, tetr_s, final_score, lines_removed, time_array, score_array, lines_array = gen.run()
         print("Game achieved a score of: ", newScore)
         print("chromosome: ", perfectChromosome)
         print("tot run time: ", tot_time)
         print("#moves:  ", n_tetr)
         print("avg time per move: ", avg_move_time)
         print("moves/sec:  ", tetr_s)
+        print("Final Score:", final_score)
+        print("Lines Removed: ", lines_removed)
+        # print(time_array)
+        # print(lines_array)
+        # print(score_array)
+
+        f = open('genetic_values.csv', 'w')
+        writer = csv.writer(f)
+        writer.writerow("Genetic Values CSV")
+        writer.writerow(time_array)
+        writer.writerow(score_array)
+        writer.writerow(lines_array)
+        f.close()
     else:
         print("Needs to be Trained!")
         exit(0)

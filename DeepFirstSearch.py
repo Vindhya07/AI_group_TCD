@@ -7,6 +7,11 @@ from Model import PIECES
 #from com.Menu import menu
 from sidePanel import *
 import sys
+# import PyQt5
+import matplotlib.pyplot as plt
+# matplotlib.use("Qt5Agg")
+import csv
+# from Plot_Class import Plot_Class
 
 #  Create a new istance of TreePlot
 DFSTreePlot = TreePlot()
@@ -163,7 +168,7 @@ def dfs_main(r_p, gdSidePanel, lv, numOfRun, treePlot):
     AVG_runs = 0
     for x in range(numOfRun):
         dfs = DeepFirstSearch(r_p, gdSidePanel, lv, treePlot)
-        newScore, weights, tot_time, n_tetr, avg_move_time, tetr_s = dfs.run()
+        newScore, weights, tot_time, n_tetr, avg_move_time, tetr_s, final_score, lines_removed, time_array, score_array, lines_array = dfs.run()
         AVG_runs = AVG_runs + newScore
         print("Game achieved a score of: ", newScore)
         print("weights: ", weights)
@@ -171,9 +176,39 @@ def dfs_main(r_p, gdSidePanel, lv, numOfRun, treePlot):
         print("#moves:  ", n_tetr)
         print("avg time per move: ", avg_move_time)
         print("moves/sec:  ", tetr_s)
-    AVG_runs = AVG_runs / numOfRun
-    if numOfRun > 1:
-        print("AVGScore after ", numOfRun, " Runs : ", AVG_runs)
+        print("Final Score:", final_score)
+        print("Lines Removed: ", lines_removed)
+        # print(time_array)
+        # print(lines_array)
+        # print(score_array)
 
+        # open the file in the write mode
+        f = open('dfs_values.csv', 'w')
+        # create the csv writer
+        writer = csv.writer(f)
+        writer.writerow("DFS Values CSV")
+        # write a row to the csv file
+        writer.writerow(time_array)
+        writer.writerow(score_array)
+        writer.writerow(lines_array)
+
+        # close the file
+        f.close()
+
+
+    
+    # AVG_runs = AVG_runs / numOfRun
+    # if numOfRun > 1:
+    #     print("AVGScore after ", numOfRun, " Runs : ", AVG_runs)
+
+    # return time_array, lines_array, score_array
+ 
 if __name__ == "__main__":
     dfs_main('r', 'no', 'LV1', 1, 'no')
+    # plot_function(lines_array, score_array)
+    # Plot_Class.splot_function(lines_array, score_array)
+    # plt.plot(time_array)
+    # plt.show()
+
+# plt.plot(time_array)
+# plt.show()
