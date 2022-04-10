@@ -20,14 +20,24 @@ Vindhya Nagaraj - vnagaraj@tcd.ie
 Anoushka Mittal:
 Code - 
 Report - 
+> Introduction
+> Related Work
+> Slides - ppt
+
 
 Kalaivani Kandasamy:
 Code - 
 Report -
+> Problem Definition and Algorithms
+> Conclusion
+> Slides - ppt
 
 Miguel Lopez:
 Code -
 Report - 
+> Introduction
+> Related work
+> Evaluation Metrics
 
 Vindhya Nagaraj:
 Code - 
